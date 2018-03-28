@@ -84,10 +84,10 @@ namespace Examen_28_03_18
             var Catalogo = from a in Pizzas
                            join b in PizzaIngrediente on a.Id equals b.PizzaId
                            join c in Ingredientes on b.IngredientId equals c.Id
-                           group a by new { a.Name, a.Id} into p
-                           select new { Name = p.Key.Name, Id = p.Key.Id, Pvp = (from d in Ingredientes select d.Cost).Sum() * 1.20m };
-
-            foreach(var pizza in Catalogo)
+                           group c by new {a.Name, a.Id, c.Cost} into p
+                           select new { Name = p.Key.Name, Id = p.Key.Id, Pvp = p.Sum(c => c.Cost)};
+      
+            foreach (var pizza in Catalogo)
             {
                 write("ID = " + pizza.Id + ", Pizza " + pizza.Name + ", " + pizza.Pvp + " Euros");
             }
